@@ -39,6 +39,7 @@
 
 <script>
 import { login } from '@/api/user.js'
+import { setItem } from '@/utils/storage.js'
 export default {
   name: 'LoginIndex',
   data () {
@@ -72,6 +73,8 @@ export default {
 
         const { data } = await login(this.user)
         this.$store.commit('setUser', data.data)
+        // 为了防止页面刷新数据丢失，将数据存储到本地存储
+        setItem('user', data.data)
         toast.clear()
         this.$toast.success('登录成功')
       } catch (err) {
