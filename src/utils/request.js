@@ -1,5 +1,6 @@
 import axios from 'axios'
 import jsonBig from 'json-bigint'
+import store from '@/store'
 // axios.create 方法
 // 建议使用 create 方式，我们可以拥有
 // 说白了就是复制了一个 axios，拥有和 axios 完全一样的功能，但是配置可以不一样
@@ -11,5 +12,12 @@ const request = axios.create({
 request.defaults.transformResponse = [function (data) {
   return data ? jsonBig.parse(data) : {} // 换了一个转化方法 使得 计算更精确 保证id不失真
 }]
-
+request.interceptors.request.use(function (config) {
+  const user = store.state.user
+  if (user) {
+    // 统一注入token
+    config.headers['Authorization'] = `Bearer ${user.token}`
+  }
+  return config
+})
 export default request
