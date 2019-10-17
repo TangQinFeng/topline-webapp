@@ -3,6 +3,7 @@
     <!-- 导航栏 -->
     <van-nav-bar
     title="标题"
+
     />
     <!-- 登录表单 -->
     <ValidationObserver ref="loginForm">
